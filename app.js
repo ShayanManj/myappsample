@@ -7,29 +7,22 @@ class LongestCommonSubsequence
         int m = s1.Length;
         int n = s2.Length;
 
-        string lcs = "";
+        string[,] lcs = new string[m + 1, n + 1];
 
-        for (int i = 0; i < m; i++)
+        for (int i = 0; i <= m; i++)
         {
-            for (int j = 0; j < n; j++)
+            for (int j = 0; j <= n; j++)
             {
-                string currentLcs = "";
-                int p = i;
-                int q = j;
-
-                while (p < m && q < n && s1[p] == s2[q])
-                {
-                    currentLcs += s1[p];
-                    p++;
-                    q++;
-                }
-
-                if (currentLcs.Length > lcs.Length)
-                    lcs = currentLcs;
+                if (i == 0 || j == 0)
+                    lcs[i, j] = "";
+                else if (s1[i - 1] == s2[j - 1])
+                    lcs[i, j] = lcs[i - 1, j - 1] + s1[i - 1];
+                else
+                    lcs[i, j] = (lcs[i - 1, j].Length > lcs[i, j - 1].Length) ? lcs[i - 1, j] : lcs[i, j - 1];
             }
         }
 
-        return lcs;
+        return lcs[m, n];
     }
 
     static void Main()
@@ -41,4 +34,4 @@ class LongestCommonSubsequence
 
         Console.WriteLine("Longest Common Subsequence: " + lcs);
     }
-}
+    }
